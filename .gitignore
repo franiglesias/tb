@@ -4,6 +4,7 @@
 /.env.*.local
 /public/bundles/
 /var/
+/bin/
 /vendor/
 ###< symfony/framework-bundle ###
 
@@ -17,3 +18,7 @@
 ###< symfony/phpunit-bridge ###
 
 /.idea
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
