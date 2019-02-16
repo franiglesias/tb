@@ -22,3 +22,6 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 ###< phpunit/phpunit ###
+
+composer.lock
+symfony.lock
