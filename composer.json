@@ -13,6 +13,7 @@
         "symfony/yaml": "4.2.*"
     },
     "config": {
+        "bin-dir": "bin",
         "preferred-install": {
             "*": "dist"
         },
