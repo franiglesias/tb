@@ -23,7 +23,7 @@
 
 <p>Simply, unzip the file into your project, this will create <code>docker-compose.yml</code> on the root of your project and a folder named <code>phpdocker</code> containing nginx and php-fpm config for it.</p>
 
-<p>Ensure the webserver config on <code>docker\nginx.conf</code> is correct for your project. PHPDocker.io will have customised this file according to the application type you chose on the generator, for instance <code>web/app|app_dev.php</code> on a Symfony project, or <code>public/index.php</code> on generic apps.</p>
+<p>Ensure the webserver config on <code>phpdocker/nginx/nginx.conf</code> is correct for your project. PHPDocker.io will have customised this file according to the application type you chose on the generator, for instance <code>web/app|app_dev.php</code> on a Symfony project, or <code>public/index.php</code> on generic apps.</p>
 
 <p>Note: you may place the files elsewhere in your project. Make sure you modify the locations for the php-fpm dockerfile, the php.ini overrides and nginx config on <code>docker-compose.yml</code> if you do so.</p>
 
@@ -74,11 +74,6 @@
   <td>php-fpm</td>
   <td>php-fpm</td>
   <td>9000</td>
-</tr>
-<tr>
-  <td>Memcached</td>
-  <td>memcached</td>
-  <td>11211 (default)</td>
 </tr>
 </tbody>
 </table>

@@ -4,10 +4,6 @@
 version: "3.1"
 services:
 
-    memcached:
-      image: memcached:alpine
-      container_name: tb-memcached
-
     postgres:
       image: postgres:11.1-alpine
       container_name: tb-postgres
@@ -15,9 +11,11 @@ services:
       volumes:
         - .:/application
       environment:
-        - POSTGRES_USER=tbit
-        - POSTGRES_PASSWORD=rootpwd
-        - POSTGRES_DB=tbit
+        - POSTGRES_USER=root
+        - POSTGRES_PASSWORD=tb
+        - POSTGRES_DB=tb
+      ports:
+        - "8084:5432"
 
     webserver:
       image: nginx:alpine
@@ -35,5 +33,5 @@ services:
       working_dir: /application
       volumes:
         - .:/application
-        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
 
