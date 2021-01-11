@@ -1,8 +1,10 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "name": "tb/base",
+    "description": "Template for practices with testing and symfony 4",
+    "license": "MIT",
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/browser-kit": "4.2.*",
