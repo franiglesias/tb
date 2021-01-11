@@ -48,6 +48,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "test": [
+            "/application/bin/phpunit"
         ]
     },
     "conflict": {
