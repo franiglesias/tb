@@ -5,25 +5,20 @@ namespace App\Tests\E2E;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * The exercise consists in create an API endpoint that can return a random number
+ * between 1 and 100 (1 and 100 included)
+ *
+ * We will use outside-in TDD approach.
+ *
+ * We expect a json object like:
+ *
+ * {"number":"58"}
+ *
+ * We should build a decently decoupled architecture
+ */
+
 class LuckyControllerTest extends WebTestCase
 {
-    public function testShouldBeAlive(): void
-    {
-        $uri = '/lucky/number';
 
-        $client = self::createClient();
-        $client->request('GET', $uri);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    }
-
-    public function testShouldReturnANumberGreaterThanZero(): void
-    {
-        $uri = '/lucky/number';
-
-        $client = self::createClient();
-        $client->request('GET', $uri);
-        $contents = $client->getResponse()->getContent();
-        $data = json_decode($contents);
-        $this->assertGreaterThan(0, $data->number);
-    }
 }
