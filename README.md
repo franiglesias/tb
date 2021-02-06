@@ -1,6 +1,6 @@
 # tb
 
-A dockerized dojo template environment to play with PHP testing.
+A dockerized dojo template environment to play with PHP testing and TDD.
 
 This is a base project that can serve as starting point or dojo to practice with php testing and symfony 4.
 
@@ -8,6 +8,7 @@ This is a base project that can serve as starting point or dojo to practice with
 
 * [FizzBuzz](tests/Katas/FizzBuzz)
 * [To-do list](tests/Katas/TodoList)
+* [Greetings](tests/Katas/Greetings)
 
 ## Goodies
 
