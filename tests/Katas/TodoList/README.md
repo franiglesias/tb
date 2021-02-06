@@ -51,6 +51,8 @@ GET /api/todo
 
 To simplify the test we are expecting that the list of tasks will be a string with all data needed.
 
+We will use the `App\Lib\FileStorageEngine` as persistence mechanism.
+
 ## Technicalities
 
 Endpoints:
