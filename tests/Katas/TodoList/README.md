@@ -45,17 +45,19 @@ PATCH /api/todo/1
 [done:true]
 
 GET /api/todo
-1. Write a test that fails (true)
-2. Write Production code that makes the test pass (false)
-3. Refactor if there is opportunity (false)
+[√] 1. Write a test that fails
+[ ] 2. Write Production code that makes the test pass
+[ ] 3. Refactor if there is opportunity
+
+To simplify the test we are expecting that the list of tasks will be a string with all data needed.
 
 ## Technicalities
 
 Endpoints:
 
-* `POST /api/todo` (201/404 if not implemented)
-* `GET /api/todo` (200/404 if not implemented/500 if something gone wrong)
-* `PATCH /api/todo/{taskId}` (200/404 if not implemented)
+* `POST /api/todo` (201/501  if not implemented)
+* `GET /api/todo` (200/501 if not implemented/500 if something gone wrong)
+* `PATCH /api/todo/{taskId}` (200/501 if not implemented)
 
 We will use 404 as "not implemented" for our endpoints.
 

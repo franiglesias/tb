@@ -9,6 +9,10 @@ This is a base project that can serve as starting point or dojo to practice with
 * [FizzBuzz](tests/Katas/FizzBuzz)
 * [To-do list](tests/Katas/TodoList)
 
+## Goodies
+
+`App\Lib\FileStorageEngine` provides a simple persistence engine for some applications.
+
 ## Setup details
 
 Docker environment includes a php 7.4 installation with Postgres and XDebug configured.
