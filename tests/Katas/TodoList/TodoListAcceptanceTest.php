@@ -24,6 +24,31 @@ class TodoListAcceptanceTest extends WebTestCase
         $this->thenTheTaskIsStored();
     }
 
+    /** @test */
+    public function asUserIWantToSeeTheTasksInMyTodoList(): void
+    {
+        $expectedList = [
+            '[ ] 1. Write a test tha fails',
+            '[ ] 2. Write code to make the test pass'
+        ];
+
+        $this->apiCreateTaskWithDescription('Write a test tha fails');
+        $this->apiCreateTaskWithDescription('Write code to make the test pass');
+
+        $this->client->request(
+            'GET',
+            '/api/todo'
+        );
+
+        $response =  $this->client->getResponse();
+
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $taskList = json_decode($response->getContent(), true);
+
+        self::assertEquals($expectedList, $taskList);
+    }
+
 
     protected function setUp(): void
     {
@@ -46,16 +71,7 @@ class TodoListAcceptanceTest extends WebTestCase
 
     private function whenWeRequestToCreateATaskWithDescription(string $taskDescription): Response
     {
-        $this->client->request(
-            'POST',
-            '/api/todo',
-            [],
-            [],
-            ['CONTENT-TYPE' => 'json/application'],
-            json_encode(['task' => $taskDescription], JSON_THROW_ON_ERROR)
-        );
-
-        return $this->client->getResponse();
+        return $this->apiCreateTaskWithDescription($taskDescription);
     }
 
     private function thenResponseShouldBeSuccesful(Response $response): void
@@ -70,5 +86,19 @@ class TodoListAcceptanceTest extends WebTestCase
 
         self::assertCount(1, $tasks);
         self::assertEquals(1, $tasks[1]->id());
+    }
+
+    private function apiCreateTaskWithDescription(string $taskDescription): Response
+    {
+        $this->client->request(
+            'POST',
+            '/api/todo',
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['task' => $taskDescription], JSON_THROW_ON_ERROR)
+        );
+
+        return $this->client->getResponse();
     }
 }

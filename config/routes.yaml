@@ -2,3 +2,8 @@ api_add_task:
   path: /api/todo
   controller: App\TodoList\Infrastructure\EntryPoint\Api\TodoListController::addTask
   methods: ['POST']
+
+api_get_task_list:
+  path: /api/todo
+  controller: App\TodoList\Infrastructure\EntryPoint\Api\TodoListController::getTaskList
+  methods: ['GET']
