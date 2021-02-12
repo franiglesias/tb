@@ -11,24 +11,25 @@ use PHPUnit\Framework\TestCase;
 
 class AddTaskHandlerTest extends TestCase
 {
+    private const TASK_ID = 1;
+    private const TASK_DESCRIPTION = 'Task Description';
+
     /** @test */
     public function shouldCreateAndStoreATask(): void
     {
-        $task = new Task(1, 'Task Description');
-
         $taskRepository = $this->createMock(TaskRepository::class);
 
         $taskRepository
             ->method('nextIdentity')
-            ->willReturn(1);
+            ->willReturn(self::TASK_ID);
 
         $taskRepository
             ->expects(self::once())
             ->method('store')
-            ->with($task);
+            ->with(new Task(self::TASK_ID, self::TASK_DESCRIPTION));
 
         $addTaskHandler = new AddTaskHandler($taskRepository);
 
-        $addTaskHandler->execute('Task Description');
+        $addTaskHandler->execute(self::TASK_DESCRIPTION);
     }
 }
