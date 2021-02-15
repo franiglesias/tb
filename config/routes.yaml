@@ -7,3 +7,8 @@ api_get_task_list:
   path: /api/todo
   controller: App\TodoList\Infrastructure\EntryPoint\Api\TodoListController::getTaskList
   methods: ['GET']
+
+api_mark_task_completed:
+  path: /api/todo/{taskId}
+  controller: App\TodoList\Infrastructure\EntryPoint\Api\TodoListController::markTaskCompleted
+  methods: ['PATCH']

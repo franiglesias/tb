@@ -11,8 +11,6 @@ use App\TodoList\Domain\TaskRepository;
 
 class FileTaskRepository implements TaskRepository
 {
-
-    /** @var FileStorageEngine */
     private FileStorageEngine $fileStorageEngine;
 
     public function __construct(FileStorageEngine $fileStorageEngine)
@@ -22,17 +20,39 @@ class FileTaskRepository implements TaskRepository
 
     public function store(Task $task): void
     {
-       $tasks = $this->fileStorageEngine->loadObjects(Task::class);
+        $tasks = $this->findAll();
 
-       $tasks[$task->id()] = $task;
+        $tasks[$task->id()] = $task;
 
-       $this->fileStorageEngine->persistObjects($tasks);
+        $this->persistAllInStorage($tasks);
     }
 
     public function nextIdentity(): int
     {
-        $tasks = $this->fileStorageEngine->loadObjects(Task::class);
+        $tasks = $this->findAll();
 
         return count($tasks) + 1;
+    }
+
+    public function findAll(): array
+    {
+        return $this->getAllFromStorage();
+    }
+
+    public function retrieve(int $taskId): Task
+    {
+        $tasks = $this->findAll();
+
+        return $tasks[$taskId];
+    }
+
+    private function getAllFromStorage(): array
+    {
+        return $this->fileStorageEngine->loadObjects(Task::class);
+    }
+
+    private function persistAllInStorage(array $tasks): void
+    {
+        $this->fileStorageEngine->persistObjects($tasks);
     }
 }

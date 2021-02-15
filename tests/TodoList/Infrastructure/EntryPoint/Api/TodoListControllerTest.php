@@ -6,6 +6,8 @@ namespace App\Tests\TodoList\Infrastructure\EntryPoint\Api;
 
 use App\TodoList\Application\AddTaskHandler;
 use App\TodoList\Application\GetTaskListHandler;
+use App\TodoList\Application\MarkTaskCompletedHandler;
+use App\TodoList\Infrastructure\EntryPoint\Api\TaskListTransformer;
 use App\TodoList\Infrastructure\EntryPoint\Api\TodoListController;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,20 +15,24 @@ use Symfony\Component\HttpFoundation\Request;
 class TodoListControllerTest extends TestCase
 {
     private const TASK_DESCRIPTION = 'Task Description';
+    private const COMPLETED_TASK_ID = 1;
     private AddTaskHandler $addTaskHandler;
     private TodoListController $todoListController;
     private GetTaskListHandler $getTaskListHandler;
-    private \App\TodoList\Infrastructure\EntryPoint\Api\TaskListTransformer $taskListTransformer;
+    private TaskListTransformer $taskListTransformer;
+    private MarkTaskCompletedHandler $markTaskCompletedHandler;
 
     protected function setUp(): void
     {
         $this->addTaskHandler = $this->createMock(AddTaskHandler::class);
         $this->getTaskListHandler = $this->createMock(GetTaskListHandler::class);
-        $this->taskListTransformer = $this->createMock(\App\TodoList\Infrastructure\EntryPoint\Api\TaskListTransformer::class);
+        $this->taskListTransformer = $this->createMock(TaskListTransformer::class);
+        $this->markTaskCompletedHandler = $this->createMock(MarkTaskCompletedHandler::class);
         $this->todoListController = new TodoListController(
             $this->addTaskHandler,
             $this->getTaskListHandler,
-            $this->taskListTransformer
+            $this->taskListTransformer,
+            $this->markTaskCompletedHandler
         );
     }
 
@@ -75,4 +81,29 @@ class TodoListControllerTest extends TestCase
 
         self::assertEquals($expectedList, $list);
     }
+
+    /** @test */
+    public function shouldMarkTaskCompleted(): void
+    {
+        $this->markTaskCompletedHandler
+            ->expects(self::once())
+            ->method('execute')
+            ->with(self::COMPLETED_TASK_ID, true);
+
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['completed' => true], JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->todoListController->markTaskCompleted(self::COMPLETED_TASK_ID, $request);
+
+        self::assertEquals(200, $response->getStatusCode());
+    }
+
+
 }

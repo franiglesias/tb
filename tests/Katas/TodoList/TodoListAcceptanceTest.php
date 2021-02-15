@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Katas\TodoList;
 
-use App\Lib\FileStorageEngine;
-use App\TodoList\Domain\Task;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,75 +15,58 @@ class TodoListAcceptanceTest extends WebTestCase
     /** @test */
     public function asUserIWantToAddTaskToAToDoList(): void
     {
-        $response = $this->whenWeRequestToCreateATaskWithDescription('Write a test that fails');
-
-        $this->thenResponseShouldBeSuccesful($response);
-
-        $this->thenTheTaskIsStored();
+        $this->givenIRequestToCreateATaskWithDescription('Write a test that fails');
+        $response = $this->whenIRequestTheListOfTasks();
+        $this->thenICanSeeAddedTasksInTheList(
+            [
+                '[ ] 1. Write a test that fails',
+            ],
+            $response
+        );
     }
 
     /** @test */
     public function asUserIWantToSeeTheTasksInMyTodoList(): void
     {
-        $expectedList = [
-            '[ ] 1. Write a test tha fails',
-            '[ ] 2. Write code to make the test pass'
-        ];
-
-        $this->apiCreateTaskWithDescription('Write a test tha fails');
-        $this->apiCreateTaskWithDescription('Write code to make the test pass');
-
-        $this->client->request(
-            'GET',
-            '/api/todo'
+        $this->givenIHaveAddedTasks(
+            [
+                'Write a test that fails',
+                'Write code to make the test pass',
+            ]
         );
-
-        $response =  $this->client->getResponse();
-
-        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
-
-        $taskList = json_decode($response->getContent(), true);
-
-        self::assertEquals($expectedList, $taskList);
+        $response = $this->whenIRequestTheListOfTasks();
+        $this->thenICanSeeAddedTasksInTheList(
+            [
+                '[ ] 1. Write a test that fails',
+                '[ ] 2. Write code to make the test pass',
+            ],
+            $response
+        );
     }
 
-
-    protected function setUp(): void
+    /** @test */
+    public function asUserIWantToMarkTasksAsCompleted(): void
     {
-        $this->resetRepositoryData();
-
-        $this->client = self::createClient();
+        $this->givenIHaveAddedTasks(
+            [
+                'Write a test that fails',
+                'Write code to make the test pass',
+            ]
+        );
+        $this->givenIMarkATaskAsCompleted(1);
+        $response = $this->whenIRequestTheListOfTasks();
+        $this->thenICanSeeAddedTasksInTheList(
+            [
+                '[√] 1. Write a test that fails',
+                '[ ] 2. Write code to make the test pass',
+            ],
+            $response
+        );
     }
 
-    protected function tearDown(): void
-    {
-        $this->resetRepositoryData();
-    }
-
-    private function resetRepositoryData(): void
-    {
-        if (file_exists('repository.data')) {
-            unlink('repository.data');
-        }
-    }
-
-    private function whenWeRequestToCreateATaskWithDescription(string $taskDescription): Response
+    private function givenIRequestToCreateATaskWithDescription(string $taskDescription): Response
     {
         return $this->apiCreateTaskWithDescription($taskDescription);
-    }
-
-    private function thenResponseShouldBeSuccesful(Response $response): void
-    {
-        self::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
-    }
-
-    private function thenTheTaskIsStored(): void
-    {
-        $storage = new FileStorageEngine('repository.data');
-        $tasks = $storage->loadObjects(Task::class);
-
-        self::assertCount(1, $tasks);
-        self::assertEquals(1, $tasks[1]->id());
     }
 
     private function apiCreateTaskWithDescription(string $taskDescription): Response
@@ -100,5 +81,79 @@ class TodoListAcceptanceTest extends WebTestCase
         );
 
         return $this->client->getResponse();
+    }
+
+    private function whenIRequestTheListOfTasks(): Response
+    {
+        $response = $this->apiGetTasksList();
+
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        return $response;
+    }
+
+    private function apiGetTasksList(): Response
+    {
+        $this->client->request(
+            'GET',
+            '/api/todo'
+        );
+
+        return $this->client->getResponse();
+    }
+
+    private function thenICanSeeAddedTasksInTheList(array $expectedTasks, Response $response): void
+    {
+        $taskList = json_decode($response->getContent(), true);
+
+        self::assertEquals($expectedTasks, $taskList);
+    }
+
+    private function givenIHaveAddedTasks($tasks): void
+    {
+        foreach ($tasks as $task) {
+            $this->apiCreateTaskWithDescription($task);
+        }
+    }
+
+    private function givenIMarkATaskAsCompleted(int $taskId): void
+    {
+        $patchResponse = $this->apiMarkTaskCompleted($taskId);
+
+        self::assertEquals(Response::HTTP_OK, $patchResponse->getStatusCode());
+    }
+
+    private function apiMarkTaskCompleted(int $taskId): Response
+    {
+        $this->client->request(
+            'PATCH',
+            '/api/todo/' . $taskId . '',
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['completed' => true], JSON_THROW_ON_ERROR)
+
+        );
+
+        return $this->client->getResponse();
+    }
+
+    protected function setUp(): void
+    {
+        $this->resetRepositoryData();
+
+        $this->client = self::createClient();
+    }
+
+    private function resetRepositoryData(): void
+    {
+        if (file_exists('repository.data')) {
+            unlink('repository.data');
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        $this->resetRepositoryData();
     }
 }

@@ -52,4 +52,40 @@ class FileTaskRepositoryTest extends TestCase
 
         $this->taskRepository->store($task);
     }
+
+    /** @test */
+    public function shouldGetStoredTasks(): void
+    {
+        $storedTasks = [
+            1 => new Task(1, 'Write a test that fails'),
+            2 => new Task(2, 'Write code to make the test pass'),
+        ];
+
+        $this->fileStorageEngine
+            ->method('loadObjects')
+            ->willReturn(
+                $storedTasks
+            );
+
+        self::assertEquals($storedTasks, $this->taskRepository->findAll());
+    }
+
+    /** @test */
+    public function shouldRetrieveATaskByItsId(): void
+    {
+        $expectedTask = new Task(1, 'Write a test that fails');
+
+        $storedTasks = [
+            1 => $expectedTask,
+            2 => new Task(2, 'Write code to make the test pass'),
+        ];
+
+        $this->fileStorageEngine
+            ->method('loadObjects')
+            ->willReturn(
+                $storedTasks
+            );
+
+        self::assertEquals($expectedTask, $this->taskRepository->retrieve(1));
+    }
 }
