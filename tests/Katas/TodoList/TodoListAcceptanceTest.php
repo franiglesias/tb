@@ -64,6 +64,27 @@ class TodoListAcceptanceTest extends WebTestCase
         );
     }
 
+    /** @test */
+    public function asUserITryToAddTaskWithInvalidPayload(): void
+    {
+        $this->client->request(
+            'POST',
+            '/api/todo',
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['bad payload'], JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertEquals(400, $response->getStatusCode());
+
+        $body = json_decode($response->getContent(), true);
+
+        self::assertEquals('Invalid payload', $body['error']);
+    }
+
     private function givenIRequestToCreateATaskWithDescription(string $taskDescription): Response
     {
         return $this->apiCreateTaskWithDescription($taskDescription);

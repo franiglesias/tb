@@ -105,5 +105,26 @@ class TodoListControllerTest extends TestCase
         self::assertEquals(200, $response->getStatusCode());
     }
 
+    /** @test */
+    public function shouldFailWithBadRequestIfInvalidPayload(): void
+    {
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['invalid payload'], JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->todoListController->addTask($request);
+
+        self::assertEquals(400, $response->getStatusCode());
+
+        $body = json_decode($response->getContent(), true);
+
+        self::assertEquals('Invalid payload', $body['error']);
+    }
 
 }

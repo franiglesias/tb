@@ -35,6 +35,10 @@ class TodoListController
     {
         $payload = $this->obtainPayload($request);
 
+        if (!isset($payload['task'])) {
+            return new JsonResponse(['error' => 'Invalid payload'], Response::HTTP_BAD_REQUEST);
+        }
+
         $this->addTaskHandler->execute($payload['task']);
 
         return new JsonResponse('', Response::HTTP_CREATED);
