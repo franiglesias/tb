@@ -32,6 +32,7 @@ Our target is that the resulting application has a pretty clean architecture.
 2. Write Production code that makes the test pass
 3. Refactor if there is opportunity
 
+```
 POST /api/todo
 [task:Write a test that fails]
 
@@ -48,6 +49,7 @@ GET /api/todo
 [√] 1. Write a test that fails
 [ ] 2. Write Production code that makes the test pass
 [ ] 3. Refactor if there is opportunity
+````
 
 To simplify the test we are expecting that the list of tasks will be a string with all data needed.
 
@@ -57,11 +59,9 @@ We will use the `App\Lib\FileStorageEngine` as persistence mechanism.
 
 Endpoints:
 
-* `POST /api/todo` (201/501  if not implemented)
-* `GET /api/todo` (200/501 if not implemented/500 if something gone wrong)
-* `PATCH /api/todo/{taskId}` (200/501 if not implemented)
-
-We will use 404 as "not implemented" for our endpoints.
+* `POST /api/todo` (201 Created)
+* `GET /api/todo` (200 Ok)
+* `PATCH /api/todo/{taskId}` (200 Ok)
 
 ## The process
 
