@@ -65,7 +65,7 @@ class TodoListAcceptanceTest extends WebTestCase
     }
 
     /** @test */
-    public function asUserITryToAddTaskWithInvalidPayload(): void
+    public function asUserITryToAddTaskWithAnEmptyTaskDescription(): void
     {
         $this->client->request(
             'POST',
@@ -73,7 +73,7 @@ class TodoListAcceptanceTest extends WebTestCase
             [],
             [],
             ['CONTENT-TYPE' => 'json/application'],
-            json_encode(['bad payload'], JSON_THROW_ON_ERROR)
+            json_encode(['task' => ''], JSON_THROW_ON_ERROR)
         );
 
         $response = $this->client->getResponse();
@@ -82,8 +82,9 @@ class TodoListAcceptanceTest extends WebTestCase
 
         $body = json_decode($response->getContent(), true);
 
-        self::assertEquals('Invalid payload', $body['error']);
+        self::assertEquals('Task description should not be empty', $body['error']);
     }
+
 
     private function givenIRequestToCreateATaskWithDescription(string $taskDescription): Response
     {

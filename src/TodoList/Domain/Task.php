@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\TodoList\Domain;
 
+use InvalidArgumentException;
+
 class Task
 {
     private int $id;
@@ -13,6 +15,12 @@ class Task
     public function __construct(int $id, string $description)
     {
         $this->id = $id;
+
+        if ($description === '') {
+            $exceptionMessage = 'Task description should not be empty';
+            throw new InvalidArgumentException($exceptionMessage);
+        }
+
         $this->description = $description;
         $this->completed = false;
     }

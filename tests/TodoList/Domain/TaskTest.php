@@ -6,9 +6,18 @@ namespace App\Tests\TodoList\Domain;
 
 use App\TodoList\Domain\Task;
 use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 
 class TaskTest extends TestCase
 {
+    /** @test */
+    public function shouldNotAllowEmptyDescription(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Task(1, '');
+    }
+
     /** @test */
     public function shouldProvideRepresentation(): void
     {

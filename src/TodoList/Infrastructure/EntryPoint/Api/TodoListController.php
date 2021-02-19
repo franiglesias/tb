@@ -8,9 +8,11 @@ namespace App\TodoList\Infrastructure\EntryPoint\Api;
 use App\TodoList\Application\AddTaskHandler;
 use App\TodoList\Application\GetTaskListHandler;
 use App\TodoList\Application\MarkTaskCompletedHandler;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function is_string;
 
 class TodoListController
 {
@@ -35,11 +37,15 @@ class TodoListController
     {
         $payload = $this->obtainPayload($request);
 
-        if (!isset($payload['task'])) {
+        if (!$this->isValidPayload($payload)) {
             return new JsonResponse(['error' => 'Invalid payload'], Response::HTTP_BAD_REQUEST);
         }
 
-        $this->addTaskHandler->execute($payload['task']);
+        try {
+            $this->addTaskHandler->execute($payload['task']);
+        } catch (InvalidArgumentException $invalidTaskDescription) {
+            return new JsonResponse(['error' => $invalidTaskDescription->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
 
         return new JsonResponse('', Response::HTTP_CREATED);
     }
@@ -63,5 +69,10 @@ class TodoListController
     private function obtainPayload(Request $request): array
     {
         return json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    private function isValidPayload(array $payload): bool
+    {
+        return isset($payload['task']) && is_string($payload['task']);
     }
 }

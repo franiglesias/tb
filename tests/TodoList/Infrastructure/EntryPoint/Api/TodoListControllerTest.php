@@ -9,6 +9,7 @@ use App\TodoList\Application\GetTaskListHandler;
 use App\TodoList\Application\MarkTaskCompletedHandler;
 use App\TodoList\Infrastructure\EntryPoint\Api\TaskListTransformer;
 use App\TodoList\Infrastructure\EntryPoint\Api\TodoListController;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -125,6 +126,61 @@ class TodoListControllerTest extends TestCase
         $body = json_decode($response->getContent(), true);
 
         self::assertEquals('Invalid payload', $body['error']);
+    }
+
+
+    /** @test */
+    public function shouldFailWithBadRequestIfInvalidTaskField(): void
+    {
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['task' => 12345], JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->todoListController->addTask($request);
+
+        self::assertEquals(400, $response->getStatusCode());
+
+        $body = json_decode($response->getContent(), true);
+
+        self::assertEquals('Invalid payload', $body['error']);
+    }
+
+
+    /** @test */
+    public function shouldFailWithBadRequestIfTaskDescriptionIsEmpty(): void
+    {
+        $exceptionMessage = 'Task description should not be empty';
+        $exception = new InvalidArgumentException($exceptionMessage);
+
+        $this->addTaskHandler
+            ->method('execute')
+            ->willThrowException($exception)
+            ->with('');
+
+
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['task' => ''], JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->todoListController->addTask($request);
+
+        self::assertEquals(400, $response->getStatusCode());
+
+        $body = json_decode($response->getContent(), true);
+
+        self::assertEquals($exceptionMessage, $body['error']);
     }
 
 }
