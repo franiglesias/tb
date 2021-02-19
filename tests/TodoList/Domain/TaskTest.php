@@ -41,5 +41,28 @@ class TaskTest extends TestCase
         self::assertEquals($expected, $representation);
     }
 
+    /** @test */
+    public function shouldUpdateDescription(): void
+    {
+        $expected = '[ ] 1. New Task Description';
+        $task = new Task(1, 'Task Description');
+        $task->updateDescription('New Task Description');
+
+        $representation = $task->representedAs('[:check] :id. :description');
+
+        self::assertEquals($expected, $representation);
+    }
+
+    /** @test */
+    public function shouldFailUpdatingWithInvalidDescription(): void
+    {
+        $expected = '[ ] 1. New Task Description';
+        $task = new Task(1, 'Task Description');
+        $task->updateDescription('New Task Description');
+
+        $representation = $task->representedAs('[:check] :id. :description');
+
+        self::assertEquals($expected, $representation);
+    }
 
 }

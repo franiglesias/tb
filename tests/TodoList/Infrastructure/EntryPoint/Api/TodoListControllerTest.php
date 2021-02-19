@@ -7,6 +7,7 @@ namespace App\Tests\TodoList\Infrastructure\EntryPoint\Api;
 use App\TodoList\Application\AddTaskHandler;
 use App\TodoList\Application\GetTaskListHandler;
 use App\TodoList\Application\MarkTaskCompletedHandler;
+use App\TodoList\Application\UpdateTaskHandler;
 use App\TodoList\Infrastructure\EntryPoint\Api\TaskListTransformer;
 use App\TodoList\Infrastructure\EntryPoint\Api\TodoListController;
 use InvalidArgumentException;
@@ -18,11 +19,14 @@ class TodoListControllerTest extends TestCase
 {
     private const TASK_DESCRIPTION = 'Task Description';
     private const COMPLETED_TASK_ID = 1;
+    private const TASK_ID = 1;
+
     private AddTaskHandler $addTaskHandler;
     private TodoListController $todoListController;
     private GetTaskListHandler $getTaskListHandler;
     private TaskListTransformer $taskListTransformer;
     private MarkTaskCompletedHandler $markTaskCompletedHandler;
+    private UpdateTaskHandler $updateTaskHandler;
 
     protected function setUp(): void
     {
@@ -30,11 +34,14 @@ class TodoListControllerTest extends TestCase
         $this->getTaskListHandler = $this->createMock(GetTaskListHandler::class);
         $this->taskListTransformer = $this->createMock(TaskListTransformer::class);
         $this->markTaskCompletedHandler = $this->createMock(MarkTaskCompletedHandler::class);
+        $this->updateTaskHandler = $this->createMock(UpdateTaskHandler::class);
+
         $this->todoListController = new TodoListController(
             $this->addTaskHandler,
             $this->getTaskListHandler,
             $this->taskListTransformer,
-            $this->markTaskCompletedHandler
+            $this->markTaskCompletedHandler,
+            $this->updateTaskHandler
         );
     }
 
@@ -106,6 +113,30 @@ class TodoListControllerTest extends TestCase
 
         self::assertEquals(200, $response->getStatusCode());
     }
+
+    /** @test */
+    public function shouldModifyATask(): void
+    {
+        $this->updateTaskHandler
+            ->expects(self::once())
+            ->method('execute')
+            ->with(self::TASK_ID, self::TASK_DESCRIPTION);
+
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['task' => self::TASK_DESCRIPTION], JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->todoListController->modifyTask(self::TASK_ID,$request);
+
+        self::assertEquals(204, $response->getStatusCode());
+    }
+
 
     /** @test */
     public function shouldFailWithBadRequestIfInvalidPayload(): void

@@ -7,6 +7,7 @@ namespace App\TodoList\Infrastructure\EntryPoint\Api;
 use App\TodoList\Application\AddTaskHandler;
 use App\TodoList\Application\GetTaskListHandler;
 use App\TodoList\Application\MarkTaskCompletedHandler;
+use App\TodoList\Application\UpdateTaskHandler;
 use InvalidArgumentException;
 use OutOfBoundsException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,17 +21,20 @@ class TodoListController
     private GetTaskListHandler $getTaskListHandler;
     private TaskListTransformer $taskListTransformer;
     private MarkTaskCompletedHandler $markTaskCompletedHandler;
+    private UpdateTaskHandler $updateTaskHandler;
 
     public function __construct(
         AddTaskHandler $addTaskHandler,
         GetTaskListHandler $getTaskListHandler,
         TaskListTransformer $taskListTransformer,
-        MarkTaskCompletedHandler $markTaskCompletedHandler
+        MarkTaskCompletedHandler $markTaskCompletedHandler,
+        UpdateTaskHandler $updateTaskHandler
     ) {
         $this->addTaskHandler = $addTaskHandler;
         $this->getTaskListHandler = $getTaskListHandler;
         $this->taskListTransformer = $taskListTransformer;
         $this->markTaskCompletedHandler = $markTaskCompletedHandler;
+        $this->updateTaskHandler = $updateTaskHandler;
     }
 
     public function addTask(Request $request): Response
@@ -68,6 +72,15 @@ class TodoListController
         }
 
         return new JsonResponse('', Response::HTTP_OK);
+    }
+
+    public function modifyTask(int $taskId, Request $request): Response
+    {
+        $payload = $this->obtainPayload($request);
+
+        $this->updateTaskHandler->execute($taskId, $payload['task']);
+
+        return new JsonResponse('', Response::HTTP_NO_CONTENT);
     }
 
     private function obtainPayload(Request $request): array

@@ -45,4 +45,10 @@ class Task
     {
         $this->completed = true;
     }
+
+    public function updateDescription(string $newTaskDescription): void
+    {
+        $this->description = $newTaskDescription;
+    }
+
 }

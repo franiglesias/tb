@@ -65,6 +65,39 @@ class TodoListAcceptanceTest extends WebTestCase
     }
 
     /** @test */
+    public function asUserIWantToModifyAnExistingTask(): void
+    {
+        $this->givenIHaveAddedTasks(
+            [
+                'Write a test that fails',
+                'Write code to make the test pass',
+            ]
+        );
+
+        $this->client->request(
+            'PUT',
+            '/api/todo/2',
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['task' => 'Write production code to make the test pass'], JSON_THROW_ON_ERROR)
+        );
+
+        $putResponse = $this->client->getResponse();
+
+        self::assertEquals(204, $putResponse->getStatusCode());
+
+        $response = $this->whenIRequestTheListOfTasks();
+        $this->thenICanSeeAddedTasksInTheList(
+            [
+                '[ ] 1. Write a test that fails',
+                '[ ] 2. Write production code to make the test pass',
+            ],
+            $response
+        );
+    }
+
+    /** @test */
     public function asUserITryToAddTaskWithAnEmptyTaskDescription(): void
     {
         $this->client->request(
