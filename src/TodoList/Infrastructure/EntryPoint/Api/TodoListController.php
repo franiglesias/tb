@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\TodoList\Infrastructure\EntryPoint\Api;
 
-
 use App\TodoList\Application\AddTaskHandler;
 use App\TodoList\Application\GetTaskListHandler;
 use App\TodoList\Application\MarkTaskCompletedHandler;
 use InvalidArgumentException;
+use OutOfBoundsException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +37,7 @@ class TodoListController
     {
         $payload = $this->obtainPayload($request);
 
-        if (!$this->isValidPayload($payload)) {
+        if (! $this->isValidPayload($payload)) {
             return new JsonResponse(['error' => 'Invalid payload'], Response::HTTP_BAD_REQUEST);
         }
 
@@ -61,7 +61,11 @@ class TodoListController
     {
         $payload = $this->obtainPayload($request);
 
-        $this->markTaskCompletedHandler->execute($taskId, $payload['completed']);
+        try {
+            $this->markTaskCompletedHandler->execute($taskId, $payload['completed']);
+        } catch (OutOfBoundsException $taskNotFound) {
+            return new JsonResponse(['error' => $taskNotFound->getMessage()], Response::HTTP_NOT_FOUND);
+        }
 
         return new JsonResponse('', Response::HTTP_OK);
     }

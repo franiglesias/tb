@@ -85,6 +85,20 @@ class TodoListAcceptanceTest extends WebTestCase
         self::assertEquals('Task description should not be empty', $body['error']);
     }
 
+    /** @test */
+    public function asUserITryToMarkNotExistentTasksAsCompleted(): void
+    {
+        $this->givenIHaveAddedTasks(
+            [
+                'Write a test that fails',
+                'Write code to make the test pass',
+            ]
+        );
+
+        $response = $this->apiMarkTaskCompleted(3);
+
+        self::assertEquals(404, $response->getStatusCode());
+    }
 
     private function givenIRequestToCreateATaskWithDescription(string $taskDescription): Response
     {

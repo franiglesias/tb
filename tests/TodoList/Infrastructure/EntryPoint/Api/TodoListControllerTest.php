@@ -11,6 +11,7 @@ use App\TodoList\Infrastructure\EntryPoint\Api\TaskListTransformer;
 use App\TodoList\Infrastructure\EntryPoint\Api\TodoListController;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use OutOfBoundsException;
 use Symfony\Component\HttpFoundation\Request;
 
 class TodoListControllerTest extends TestCase
@@ -177,6 +178,35 @@ class TodoListControllerTest extends TestCase
         $response = $this->todoListController->addTask($request);
 
         self::assertEquals(400, $response->getStatusCode());
+
+        $body = json_decode($response->getContent(), true);
+
+        self::assertEquals($exceptionMessage, $body['error']);
+    }
+
+    /** @test */
+    public function shouldFailWithNotFoundIdCompletingNotExistentTask(): void
+    {
+        $exceptionMessage = 'Task 3 doesn\'t exist';
+        $exception = new OutOfBoundsException($exceptionMessage);
+
+        $this->markTaskCompletedHandler
+            ->method('execute')
+            ->willThrowException($exception);
+
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'json/application'],
+            json_encode(['completed' => true], JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->todoListController->markTaskCompleted(self::COMPLETED_TASK_ID, $request);
+
+        self::assertEquals(404, $response->getStatusCode());
 
         $body = json_decode($response->getContent(), true);
 

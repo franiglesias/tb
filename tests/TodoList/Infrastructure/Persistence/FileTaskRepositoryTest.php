@@ -9,6 +9,7 @@ use App\TodoList\Domain\Task;
 use App\TodoList\Domain\TaskRepository;
 use App\TodoList\Infrastructure\Persistence\FileTaskRepository;
 use PHPUnit\Framework\TestCase;
+use OutOfBoundsException;
 
 class FileTaskRepositoryTest extends TestCase
 {
@@ -87,5 +88,23 @@ class FileTaskRepositoryTest extends TestCase
             );
 
         self::assertEquals($expectedTask, $this->taskRepository->retrieve(1));
+    }
+
+    /** @test */
+    public function shouldFailIfTaskNotFound(): void
+    {
+        $storedTasks = [
+            1 => new Task(1, 'Write a test that fails'),
+            2 => new Task(2, 'Write code to make the test pass'),
+        ];
+
+        $this->fileStorageEngine
+            ->method('loadObjects')
+            ->willReturn(
+                $storedTasks
+            );
+
+        $this->expectException(OutOfBoundsException::class);
+        $this->taskRepository->retrieve(3);
     }
 }

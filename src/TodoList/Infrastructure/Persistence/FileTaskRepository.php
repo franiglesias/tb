@@ -8,6 +8,7 @@ namespace App\TodoList\Infrastructure\Persistence;
 use App\Lib\FileStorageEngine;
 use App\TodoList\Domain\Task;
 use App\TodoList\Domain\TaskRepository;
+use OutOfBoundsException;
 
 class FileTaskRepository implements TaskRepository
 {
@@ -42,6 +43,12 @@ class FileTaskRepository implements TaskRepository
     public function retrieve(int $taskId): Task
     {
         $tasks = $this->findAll();
+
+        if (!isset($tasks[$taskId])) {
+            throw new OutOfBoundsException(
+                sprintf('Task %s doesn\'t exist', $taskId)
+            );
+        }
 
         return $tasks[$taskId];
     }
