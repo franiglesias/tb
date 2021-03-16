@@ -23,7 +23,17 @@ class TodoListController
     {
         $payload = json_decode($request->getContent(), true);
 
-        $this->addTaskHandler->execute($payload['task']);
+        if (!isset($payload['task'])) {
+            return new JsonResponse('Invalid payload', 400 );
+        }
+
+        $description = $payload['task'];
+
+        try {
+            $this->addTaskHandler->execute($description);
+        } catch (\InvalidArgumentException $e) {
+            return new JsonResponse($e->getMessage(), 400);
+        }
 
         return new JsonResponse('', 201);
     }

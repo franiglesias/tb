@@ -7,17 +7,32 @@ namespace App\Infrastructure\Persistence;
 
 use App\Domain\Task;
 use App\Domain\TaskRepository;
+use App\Lib\FileStorageEngine;
 
 class FileTaskRepository implements TaskRepository
 {
 
+    /** @var FileStorageEngine */
+    private FileStorageEngine $storageEngine;
+
+    public function __construct(FileStorageEngine $storageEngine)
+    {
+        $this->storageEngine = $storageEngine;
+    }
+
     public function nextId(): int
     {
-        throw new \RuntimeException('Implement nextId() method.');
+        $tasks = $this->storageEngine->loadObjects(Task::class);
+
+        return count($tasks) + 1;
     }
 
     public function store(Task $task): void
     {
-        throw new \RuntimeException('Implement store() method.');
+        $tasks = $this->storageEngine->loadObjects(Task::class);
+
+        $tasks[$task->getId()] = $task;
+
+        $this->storageEngine->persistObjects($tasks);
     }
 }

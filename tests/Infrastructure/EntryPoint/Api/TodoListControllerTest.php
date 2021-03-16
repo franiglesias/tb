@@ -36,4 +36,53 @@ class TodoListControllerTest extends TestCase
 
         $controller->addTask($request);
     }
+
+
+    /** @test */
+    public function shouldManageException(): void
+    {
+        $addTaskHandler = $this->createMock(AddTaskHandler::class);
+        $exception = new \InvalidArgumentException('Invalid description');
+        $addTaskHandler
+            ->method('execute')
+            ->willThrowException($exception);
+
+        $controller = new TodoListController($addTaskHandler);
+
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'application/json'],
+            json_encode(['task' => ''])
+        );
+
+        $response = $controller->addTask($request);
+
+        self::assertEquals(400, $response->getStatusCode());
+    }
+
+    /** @test */
+    public function shouldManageBadPayload(): void
+    {
+        $addTaskHandler = $this->createMock(AddTaskHandler::class);
+
+        $controller = new TodoListController($addTaskHandler);
+
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT-TYPE' => 'application/json'],
+            json_encode([])
+        );
+
+        $response = $controller->addTask($request);
+
+        self::assertEquals(400, $response->getStatusCode());
+    }
 }
