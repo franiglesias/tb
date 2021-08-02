@@ -12,7 +12,7 @@ Remember the rules:
 
 * If year number is divisible by 4 it is leap year, and we add an extra day at the end of February, but...
 * From time to time we need to avoid adding one day to keep the calendar in sync with seasons, so if year number is divisible by 100 then it is not leap year. 
-* Also, this introduces a little error, so we compensate it with an extra day every 400 years. When a year number is divisible by 400 then it is leap year.  
+* Also, this introduces a little error, so we compensate it with an extra day every 400 years. When a year number is divisible by 400, then it is leap year.  
 
 This exercise is pretty good to learn the basics of the TDD classicist approach, and the red-green-refactor cycle. If you are looking for a good kata to start learning TDD, this is one of the best.
 
