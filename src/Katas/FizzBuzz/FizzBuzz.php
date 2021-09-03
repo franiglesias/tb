@@ -8,6 +8,12 @@ class FizzBuzz
 {
 
     private const NUMBER_OF_ELEMENTS = 100;
+    private MultipleOf $rules;
+
+    public function __construct(MultipleOf $rules)
+    {
+        $this->rules = $rules;
+    }
 
     public function generate(): array
     {
@@ -20,23 +26,8 @@ class FizzBuzz
         return $listOfNumbers;
     }
 
-    private function representation(int $number)
+    private function representation(int $number): string
     {
-        $representation = $number;
-
-        if ($this->isMultipleOfThree($number)) {
-            $representation = 'Fizz';
-        }
-
-        if ($number === 5) {
-            $representation = 'Buzz';
-        }
-
-        return $representation;
-    }
-
-    private function isMultipleOfThree(int $number): bool
-    {
-        return $number % 3 === 0;
+        return $this->rules->apply($number);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Tests\Katas\FizzBuzz;
 
 use App\Katas\FizzBuzz\FizzBuzz;
+use App\Katas\FizzBuzz\MultipleOf;
 use PHPUnit\Framework\TestCase;
 
 class FizzBuzzTest extends TestCase
@@ -27,11 +28,18 @@ class FizzBuzzTest extends TestCase
         $this->thenNumberWillBeRepresentedAs(5, 'Buzz');
         $this->thenNumberWillBeRepresentedAs(6, 'Fizz');
         $this->thenNumberWillBeRepresentedAs(9, 'Fizz');
+        $this->thenNumberWillBeRepresentedAs(10, 'Buzz');
+        $this->thenNumberWillBeRepresentedAs(15, 'FizzBuzz');
+        $this->thenNumberWillBeRepresentedAs(30, 'FizzBuzz');
     }
 
     private function whenWeGenerateTheList(): array
     {
-        $fizzBuzz = new FizzBuzz();
+        $rule5 = new MultipleOf(5, 'Buzz', null);
+        $rule3 = new MultipleOf(3, 'Fizz', $rule5);
+        $rule15 = new MultipleOf(15, 'FizzBuzz', $rule3);
+
+        $fizzBuzz = new FizzBuzz($rule15);
 
         return $fizzBuzz->generate();
     }
@@ -41,6 +49,5 @@ class FizzBuzzTest extends TestCase
         $theList = $this->whenWeGenerateTheList();
         self::assertEquals($representation, $theList[$number - 1]);
     }
-
 
 }
