@@ -3,9 +3,14 @@ declare (strict_types=1);
 
 namespace App\Infrastructure\EntryPoint\Api;
 
+use App\Domain\Task;
 use App\Domain\TaskTransformer;
 
 class TaskToStringTaskTransformer implements TaskTransformer
 {
 
+    public function transform(Task $task): string
+    {
+        throw new \RuntimeException('Implement transform() method.');
+    }
 }

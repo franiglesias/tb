@@ -12,6 +12,7 @@ class TodoListAcceptanceTest extends WebTestCase
     public function asUserICanAddATaskToTheList(): void
     {
         $client = self::createClient();
+        $client->disableReboot();
 
         $payload = [
             'task' => 'Write a test that fails'

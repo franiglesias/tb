@@ -5,5 +5,5 @@ namespace App\Domain;
 
 interface TaskTransformer
 {
-
+    public function transform(Task $task): string;
 }

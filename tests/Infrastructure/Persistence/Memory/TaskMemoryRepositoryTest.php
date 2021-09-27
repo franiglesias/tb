@@ -40,4 +40,22 @@ class TaskMemoryRepositoryTest extends TestCase
         self::assertEquals(4, $taskRepository->nextId());
     }
 
+    /** @test */
+    public function shouldProvideAllTasks(): void
+    {
+        $taskRepository = new TaskMemoryRepository();
+
+        $taskRepository->store(new Task(1, 'Write a test that fails'));
+        $taskRepository->store(new Task(2, 'Write production code'));
+        $taskRepository->store(new Task(3, 'Refactor things'));
+
+        $expected = [
+            1 => new Task(1, 'Write a test that fails'),
+            2 => new Task(2, 'Write production code'),
+            3 => new Task(3, 'Refactor things'),
+        ];
+
+        self::assertEquals($expected, $taskRepository->findAll());
+    }
+
 }

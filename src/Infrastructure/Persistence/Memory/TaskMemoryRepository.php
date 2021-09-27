@@ -20,4 +20,9 @@ class TaskMemoryRepository implements TaskRepository
     {
         $this->tasks[$task->id()] = $task;
     }
+
+    public function findAll(): array
+    {
+        return $this->tasks;
+    }
 }
