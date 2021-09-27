@@ -6,3 +6,8 @@ api_add_task:
   path: /api/todo
   controller: App\Infrastructure\EntryPoint\Api\AddTaskController
   methods: ['POST']
+
+api_get_tasks:
+  path: /api/todo
+  controller: App\Infrastructure\EntryPoint\Api\GetTasksController
+  methods: ['GET']
