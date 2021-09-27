@@ -8,14 +8,16 @@ use App\Domain\TaskRepository;
 
 class TaskMemoryRepository implements TaskRepository
 {
+    /** @var array<Task>  */
+    private array $tasks = [];
 
     public function nextId(): int
     {
-        throw new \RuntimeException('Implement nextId() method.');
+        return count($this->tasks) + 1;
     }
 
     public function store(Task $task): void
     {
-        throw new \RuntimeException('Implement store() method.');
+        $this->tasks[$task->id()] = $task;
     }
 }

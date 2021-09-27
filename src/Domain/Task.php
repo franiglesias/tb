@@ -13,4 +13,9 @@ class Task
         $this->id = $id;
         $this->description = $description;
     }
+
+    public function id(): int
+    {
+        return $this->id;
+    }
 }
