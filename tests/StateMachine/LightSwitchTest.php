@@ -3,7 +3,7 @@ declare (strict_types=1);
 
 namespace App\Tests\StateMachine;
 
-use App\StateMachine\OnLightSwitch;
+use App\StateMachine\Post\OnLightSwitch;
 use PHPUnit\Framework\TestCase;
 
 class LightSwitchTest extends TestCase
