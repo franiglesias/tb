@@ -1,0 +1,9 @@
+default:
+    suites:
+        default:
+            paths:
+                - "%paths.base%/design/Features"
+            contexts:
+                - App\Design\Contexts\DemoContext
+    extensions:
+        FriendsOfBehat\SymfonyExtension: null

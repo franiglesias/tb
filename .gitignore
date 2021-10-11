@@ -18,3 +18,7 @@
 ###< symfony/phpunit-bridge ###
 
 /.idea
+
+###> friends-of-behat/symfony-extension ###
+/behat.yml
+###< friends-of-behat/symfony-extension ###
