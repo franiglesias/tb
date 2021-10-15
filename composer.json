@@ -23,13 +23,17 @@
         "sort-packages": true
     },
     "autoload": {
+        "psr-0": {
+            "": "src/"
+        },
         "psr-4": {
             "App\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "App\\Design\\": "design/"
         }
     },
     "replace": {
@@ -65,7 +69,11 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
-        "phpunit/phpunit": "^7.0"
+        "friends-of-behat/mink-browserkit-driver": "^1.5",
+        "friends-of-behat/mink-extension": "^2.5",
+        "friends-of-behat/symfony-extension": "^2.2",
+        "phpspec/phpspec": "^7.1",
+        "phpunit/phpunit": "^7.0",
+        "roave/security-advisories": "dev-latest"
     }
 }
