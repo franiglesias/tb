@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Katas\FizzBuzz;
+namespace Tests\App\Katas\LeapYear;
 
 use PHPUnit\Framework\TestCase;
 

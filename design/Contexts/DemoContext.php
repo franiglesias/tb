@@ -1,10 +1,9 @@
 <?php
 declare (strict_types=1);
 
-namespace App\Design\Contexts;
+namespace Design\App\Contexts;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

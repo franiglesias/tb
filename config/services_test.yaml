@@ -3,5 +3,5 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Design\Contexts\:
+    Design\App\Contexts\:
         resource: '../design/Contexts/*'
