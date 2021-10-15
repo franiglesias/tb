@@ -1,9 +1,10 @@
 default:
+    autoload:
+        '': '%paths.base%/design'
     suites:
         default:
-            paths:
-                - "%paths.base%/design/Features"
+            paths: [ 'design/Features' ]
             contexts:
                 - App\Design\Contexts\DemoContext
     extensions:
-        FriendsOfBehat\SymfonyExtension: null
+        FriendsOfBehat\SymfonyExtension: { }
