@@ -1,10 +1,14 @@
+# Copy this file to behat.yml
+# $ cp behat.yml.dist behat.yml
+
 default:
     autoload:
-        '': '%paths.base%/design'
+        '': '%paths.base%/design' # autoload for behat things
     suites:
         default:
-            paths: [ 'design/Features' ]
+            paths:
+                - 'design/Features' # This is where you will put your *.feature files
             contexts:
-                - App\Design\Contexts\DemoContext
+                - App\Design\Contexts\DemoContext # This is where you will put your contexts
     extensions:
         FriendsOfBehat\SymfonyExtension: { }
