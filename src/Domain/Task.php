@@ -19,8 +19,17 @@ class Task
         return $this->id;
     }
 
-    public function description(): string
+    private function description(): string
     {
         return $this->description;
+    }
+
+    public function representedAs(string $format): string
+    {
+        return sprintf(
+            $format,
+            $this->id(),
+            $this->description()
+        );
     }
 }

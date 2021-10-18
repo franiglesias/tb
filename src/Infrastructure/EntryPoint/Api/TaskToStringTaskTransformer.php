@@ -11,10 +11,6 @@ class TaskToStringTaskTransformer implements TaskTransformer
 
     public function transform(Task $task): string
     {
-        return sprintf(
-            '[ ] %s. %s',
-            $task->id(),
-            $task->description()
-        );
+        return $task->representedAs('[ ] %s. %s');
     }
 }
