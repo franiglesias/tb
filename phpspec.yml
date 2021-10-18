@@ -2,5 +2,6 @@ suites:
     example_suite:
         namespace: App
         spec_prefix: 'Spec'
+        psr4_prefix: App
         src_path: '%paths.config%/src'
         spec_path: '%paths.config%/design'

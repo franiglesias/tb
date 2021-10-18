@@ -4,7 +4,7 @@
 suites:
     example_suite:
         namespace: App # Application root namespace
-        psr4_prefix: App # Used to create the ns when generating code
+        psr4_prefix: App # Used to create the specification in the right folder
         spec_prefix: 'Spec' # Folder of the specs under spec_path
         src_path: '%paths.config%/src' # Code sources folder
         spec_path: '%paths.config%/design' # Path to store specifications
