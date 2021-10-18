@@ -3,6 +3,8 @@ declare (strict_types=1);
 
 namespace Design\App\Contexts;
 
+use Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
