@@ -11,6 +11,10 @@ class TaskToStringTaskTransformer implements TaskTransformer
 
     public function transform(Task $task): string
     {
-        throw new \RuntimeException('Implement transform() method.');
+        return sprintf(
+            '[ ] %s. %s',
+            $task->id(),
+            $task->description()
+        );
     }
 }

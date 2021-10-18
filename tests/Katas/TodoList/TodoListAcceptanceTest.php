@@ -4,61 +4,115 @@ declare(strict_types=1);
 
 namespace App\Tests\Katas\TodoList;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TodoListAcceptanceTest extends WebTestCase
 {
+    private KernelBrowser $client;
+
+    protected function setUp(): void
+    {
+        $this->client = self::createClient();
+        $this->client->disableReboot();
+    }
+
     /** @test */
     public function asUserICanAddATaskToTheList(): void
     {
-        $client = self::createClient();
-        $client->disableReboot();
-
-        $payload = [
-            'task' => 'Write a test that fails'
-        ];
-        $client->request(
-            'POST',
+        $this->givenIAddedANewTaskToEmptyList(
             '/api/todo',
+            [
+                'task' => 'Write a test that fails'
+            ]
+        );
+
+        $tasks = $this->whenIGetAllTasksFrom('/api/todo');
+
+        $this->thenICanSeeTheAddedTask(
+            [
+                '[ ] 1. Write a test that fails',
+            ],
+            $tasks
+        );
+    }
+
+    /** @test */
+    public function asUserICanAddMoreThanOneTaskToTheList(): void
+    {
+        $expected = $this->givenIAddedSeveralTasksToTheList(
+            '/api/todo',
+            [
+                'Write a test that fails',
+                'Write code that make test pass',
+                'Refactor all the things'
+            ]
+        );
+
+        $tasks = $this->whenIGetAllTasksFrom('/api/todo');
+
+        $this->thenICanSeeAllAddedTasks($expected, $tasks);
+    }
+
+    private function apiPost(string $uri, array $payload): void
+    {
+        $this->client->request(
+            'POST',
+            $uri,
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode($payload, JSON_THROW_ON_ERROR)
         );
+    }
 
-        $client->request(
+    private function apiGet(string $uri)
+    {
+        $this->client->request(
             'GET',
-            '/api/todo',
+            $uri,
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
         );
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
         $contents = $response->getContent();
-        $tasks = json_decode($contents, true);
 
-        $expected = [
-            '[ ] 1. Write a test that fails',
-        ];
+        return json_decode($contents, true);
+    }
 
+    private function givenIAddedANewTaskToEmptyList(string $uri, array $payload): void
+    {
+        $this->apiPost($uri, $payload);
+    }
+
+    private function whenIGetAllTasksFrom(string $uri)
+    {
+        return $this->apiGet($uri);
+    }
+
+    private function thenICanSeeTheAddedTask(array $expected, $tasks): void
+    {
         self::assertEquals($expected, $tasks);
     }
 
-    protected function setUp(): void
+    private function givenIAddedSeveralTasksToTheList(string $uri, array $payloads): array
     {
-        $this->resetRepositoryData();
-    }
+        $expected = [];
+        $counter = 1;
+        foreach ($payloads as $taskDescription) {
+            $this->apiPost($uri, ['task' => $taskDescription]);
+            $expected[] = sprintf('[ ] %s. %s', $counter, $taskDescription);
 
-    protected function tearDown(): void
-    {
-        $this->resetRepositoryData();
-    }
-
-    private function resetRepositoryData(): void
-    {
-        if (file_exists('repository.data')) {
-            unlink('repository.data');
+            $counter++;
         }
+
+        return $expected;
+    }
+
+    private function thenICanSeeAllAddedTasks(array $expected, $tasks): void
+    {
+        self::assertEquals($expected, $tasks);
     }
 
 }
