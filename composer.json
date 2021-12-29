@@ -23,9 +23,6 @@
         "sort-packages": true
     },
     "autoload": {
-        "psr-0": {
-            "": "src"
-        },
         "psr-4": {
             "App\\": "src/"
         }
