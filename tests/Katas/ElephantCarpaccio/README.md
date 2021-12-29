@@ -97,3 +97,73 @@ users.
 **Support for discount**
 
 **All discounts supported**
+
+## User stories
+
+A user story expresses from user
+perspective. [INVEST guidelines to define user stories](https://agileforall.com/new-to-agile-invest-in-good-user-stories/):
+
+* **Independent**: you can build and deliver it in isolation (this could not be easy).
+* **Negotiable**: the story expresses a need and that is the start of a conversation with the user to gather the context
+  and decide the details of how to implement it.
+* **Valuable**: the story provides value to the user once deployed. Prioritization of stories should be done by business
+  value, so we need to know it.
+* **Estimatable**: you can estimate the cost of doing the story, so you can decide if the cost worth the value. If you
+  cannot estimate it, it is possible that you need to split the story (estimate here does not mean story points or time)
+* **Small**: it can be done in an iteration or sprint. This depends on the teams. It can be hours or days.
+* **Testable**: you can verify that the need expressed in the story is fulfilled by the implementation, the best if
+  using automated acceptance tests (BDD).
+
+## Slicing techniques
+
+When you have to deal with a big user story or project, different techniques can be applied to achieve a good vertical
+slicing that helps the team to deliver value in small, low-risk, chunks.
+
+* [SPIDR method](https://www.youtube.com/watch?v=ZHtSogsF8Yc)
+* [Strategies for Story Slicing](https://medium.com/agilegreat/story-slicing-216af738ef4c)
+* [Why Most People Split Workflows Wrong](https://www.humanizingwork.com/why-most-people-split-workflows-wrong/)
+* [The Humanizing Work Guide to Splitting User Stories](https://www.humanizingwork.com/the-humanizing-work-guide-to-splitting-user-stories/)
+
+### By Paths
+
+* Identify the different paths of the user story (i.e: Happy path, Sad paths).
+* Identify variations inside those paths (i.e: payment methods, filters, etc.).
+* Split it based on the identified paths.
+
+Example:
+
+* As a user I want to buy and pay for products.
+
+* As a user I want to buy a product paying with Stripe.
+* As a user I want to buy a product paying with PayPal.
+* As a user I want to buy several products paying with both methods.
+
+### By Interface (or platform)
+
+* Identify the different interfaces (UI) that the software has to offer (mobile, console, web, computer, etc.).
+* Identify variations (i.e: platform (mobile android, mobile ios, web chrome, web safari, computer windows, computer
+  macOs...))
+* Split based on the identified variations. You can choose attending to different criteria: number of users, expected
+  revenue, ease of development...
+
+Example: A typical situation is to have a web based application and mobile apps. We could start by developing the web
+for mobile because we expect most user would want to access our app using their phones, and it is easier to develop a
+web application mobile first and scale to computer screen after that.
+
+### By Data types or parameters to handle
+
+* Identify different data types or types of parameters to handle.
+* Identify if it is possible to express them in common formats.
+
+Example: dates can be input using simple text fields, that are easier to implement. We introduce date picker in a future
+iteration.
+
+### By Business Rules
+
+* Identify and isolate the business rules that are applied to the story.
+* Group together those that are closely related and could be addressed in the same slice.
+
+### By Spike
+
+A spike is an experiment we make to learn something about the problem. Spike should answer concrete questions, and no
+more than those questions. We can slice the story using the outcomes of the spike.
