@@ -4,7 +4,9 @@
 /.env.*.local
 /public/bundles/
 /var/
-/bin/
+/bin/*
+!/bin/console
+!/bin/phpunit
 /vendor/
 ###< symfony/framework-bundle ###
 
