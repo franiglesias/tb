@@ -14,14 +14,14 @@ class FileStorageEngine
         $this->filePath = $filePath;
     }
 
-    public function loadObjects(string $class): array
+    public function loadObjects(): array
     {
         if (!file_exists($this->filePath)) {
             return [];
         }
 
         $file = fopen($this->filePath, 'rb');
-        $objects = unserialize(fgets($file), ['allowed_classes' => [$class]]);
+        $objects = unserialize(fgets($file), ['allowed_classes' => true]);
         fclose($file);
 
         return $objects;

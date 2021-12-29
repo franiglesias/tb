@@ -9,6 +9,8 @@ This is a base project that can serve as starting point or dojo to practice with
 * [FizzBuzz](tests/Katas/FizzBuzz)
 * [To-do list](tests/Katas/TodoList)
 * [Greetings](tests/Katas/Greetings)
+* [Leap Year](tests/Katas/LeapYear)
+* [PrimeFactors](tests/Katas/PrimeFactors)
 
 ## Goodies
 
