@@ -11,6 +11,7 @@ This is a base project that can serve as starting point or dojo to practice with
 * [Greetings](tests/Katas/Greetings)
 * [Leap Year](tests/Katas/LeapYear)
 * [PrimeFactors](tests/Katas/PrimeFactors)
+* [Elephant Carpaccio](tests/Katas/ElephantCarpaccio)
 
 ## Goodies
 
