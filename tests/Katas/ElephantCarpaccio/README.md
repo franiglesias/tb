@@ -7,30 +7,40 @@ stories into really thin vertical slices.
 
 A vertical slice is a piece of a story with the following characteristics:
 
-* Vertical: it cuts across multiple architectural layers or technical stacks. Usually a vertical slice contains elements
-  of user interface, backend, persistence, etc. Or the user can perceive a change in the things that are possible to do
-  with the software.
-* Testable: you can verify the behavior it with tests. Or better: you can specify it with tests and develop it in TDD
-  fashion.
+* Vertical: it cuts across multiple architectural layers or technical stacks. Usually, a vertical slice contains
+  elements of user interface, backend, persistence, etc. The user can perceive a change in the things that are possible
+  to do with the software.
+* Testable: you can verify the behavior of the system with tests. Or better yet: you can specify it with tests and
+  develop it in TDD/BDD fashion.
 * User valuable: users obtain some value from the delivery of the slice. Value can benefit only part of potential users,
-  or satisfy only one specific use case. You need to provide value with each slice and decide where to start.
+  or satisfy only specific use cases. You need to provide value with each slice.
 
 ## The exercise
 
 You can find
-the [Facilitation guide](https://docs.google.com/document/d/1TCuuu-8Mm14oxsOnlk8DqfZAA1cvtYu9WGv67Yj_sSk/pub). This
-README is an adaptation of the facilitation guide.
+the [Original facilitation guide of Elephant Carpaccio here](https://docs.google.com/document/d/1TCuuu-8Mm14oxsOnlk8DqfZAA1cvtYu9WGv67Yj_sSk/pub)
+. This README is an adaptation of the facilitation guide.
 
-1. Organize in small teams (2-3 people) with a computer per team.
-2. (20 min) Discussion about user stories.
+### Schedule
+
+1. Organize the participants in small teams (2-3 people) with a computer per team if you want to do the coding part.
+2. (20 min) Discussion about user stories. Some teams could need an introduction to the concept.
 3. (20-30 min) Slice the product in 10-20 demo-able user stories or slices. They should be doable in less than 8
    minutes. UI mockup, creation of data tables, etc., are not considered slices. A valid slice provides new value to the
    user.
 4. Discuss the slices.
-5. (40 min) [OPTIONAL, but fun] Develop the application in 40 minutes: 5 iterations (sprints) of 8 minutes each.
+5. (40 min) [OPTIONAL] Develop the application in 40 minutes: 5 iterations (sprints) of 8 minutes each.
 6. (15-20 min) Debrief
 
-## The product
+### Notes
+
+* Participants can be both developers and business people. The best is to have both, of course.
+* Less than 10 slices means that the team needs to re-think their work.
+* The coding part is optional, but surely fun. You can
+  check [this repo to find Extreme Carpaccio, a version in which several teams can compete](https://github.com/dlresende/extreme-carpaccio)
+  . Thanks to [Abraham Vallez](https://abrahamvallez.medium.com) for the suggestion.
+
+## The product that we want to develop
 
 Product is a retail calculator that can accept 3 inputs:
 
@@ -38,8 +48,8 @@ Product is a retail calculator that can accept 3 inputs:
 * Price per item
 * 2-letter state code (for taxes)
 
-Output is total price. Discount rate is applied based in total price. Taxes are applied based on state code and
-discounted price.
+Output is total price. Discount rate is applied based on order value. Taxes are applied based on state code on
+discounted price. To clarify: first, we apply the discount and, then, we apply the taxes.
 
 Discounts:
 
@@ -63,56 +73,88 @@ Taxes:
 
 ## Prioritization
 
-The main problem you have doing this exercise has to do with deciding what should be done first.
+The main problem you have doing this exercise has to do with deciding what should be done next.
 
-Our target is to be able to apply the five discounts and support the five states on taxes. Instead of trying to reach
-that target in one shot we should work in tiny steps.
+Our target is to be able to apply the five discounts and support the five states on taxes. But instead of trying to
+reach that target in one shot, we should work in tiny steps.
 
-Each step or slice should have UI, input and output and be visibly different from previous.
+Each step or slice should have UI, input and output and be visibly different from the previous one. We should deliver
+some value on every iteration. It's true that first iterations could have very limited value because we need to address
+several technical concerns in order to start providing business value.
 
-For example. Taxes are a legal requirement, so we should implement them before discounts, that are optional. Supporting
-taxes provides more value.
+Let's see some examples:
 
-Input validation or fancy gui details provide the least value, so they should be done _after_ reaching the main target.
+User has to be able to reach the entry point of the application, so our first movement should guarantee that the
+application can run.
 
-### Milestones
+Taxes are a legal requirement, so we should implement them before discounts, that are optional. Supporting taxes
+provides more value because they are mandatory to be allowed to run the business.
 
-**First
-slice**: [walking skeleton](https://www.henricodolfing.com/2018/04/start-your-project-with-walking-skeleton.html) to tie
-the main elements needed to the application. It can be a simple hello-world that shows that the application is reachable
-and provides some output. This kind of approach helps to reduce risks, establish the project, create deploy pipelines,
-etc.
+Input validation or fancy gui details are important, but provide the least value, so they should be done _after_
+reaching the main target.
 
-**Order value**: accept items and prices and output the product.
+### Why to go soooo small
 
-**Hardcoded State tax**: hard coded (arbitrary) state tax. Example of how to provide value to a subset of potential
-users.
+Narrow vertical slices can be implemented in very little time. This allows to put them in production sooner and obtain
+feedback sooner. Maybe in a matter of hours. This way, we can react faster to problems or changes, or detect problems
+before they grow too much. We can even rollback easily in case of problems.
 
-**Input of State tax**: application allows to introduce the tax (not the state)
+Most importantly, we are providing value to our customers as soon as possible.
 
-**Input of State**: only supports two states. Show error message for unsupported ones.
+On the other hand, once we reach enough proficiency slicing things we remove the need for estimates. That's because at a
+certain point we start creating slices that we can deliver regularly, in a pretty predictable pace. We will know that we
+can deliver a certain number of slices in a week, for example.
 
-**All states supported**
+### Possible milestones
 
-**Support for discount**
+**[Walking skeleton](https://www.henricodolfing.com/2018/04/start-your-project-with-walking-skeleton.html)**: the
+walking skeleton ties the main elements needed to the application. It can be a simple _hello-world_ that shows that the
+application is reachable and can provide some output. In the real world, this kind of approach helps to reduce risks,
+establish the project, create deploy pipelines, etc.
 
-**All discounts supported**
+**Calculate order value**: accept items and prices and output the product.
+
+**Hardcoded State tax**: hard coded (arbitrary) state tax. This is an example of how to provide value to a subset of
+potential users. It is a deliverable that we can put into production and go live.
+
+**Input of State tax**: application allows to introduce the tax rate. It is not the best solution, but it is enough to
+provide value to more customers. With this you could go live in all the states, but check the next milestone.
+
+**Input of State**: only supports two states. Show error message for unsupported ones. We could go live in supported
+states.
+
+**All states supported**: no comments.
+
+**Support for one discount**: we can start to make our best customers happier.
+
+**All discounts supported**: our main target.
 
 ## User stories
 
-A user story expresses from user
-perspective. [INVEST guidelines to define user stories](https://agileforall.com/new-to-agile-invest-in-good-user-stories/):
+A user story expresses a desire about hte value expected form a software system from the user perspective. Typically, we
+write a user story using this template:
 
-* **Independent**: you can build and deliver it in isolation (this could not be easy).
+As a [role]
+I want to [something that the system could do]
+So that [benefit expected from the feature]
+
+This declaration should fit in a card. The following should be a conversation between the development team and the user(
+s) interested in the story, so all together can define a way to provide the value to the user. Acceptance criteria
+should be defined to be able to test the implementation.
+
+These are
+the [INVEST guidelines to define user stories](https://agileforall.com/new-to-agile-invest-in-good-user-stories/):
+
+* **Independent**: you can build and deliver it in isolation. This can be hard to achieve.
 * **Negotiable**: the story expresses a need and that is the start of a conversation with the user to gather the context
-  and decide the details of how to implement it.
+  and decide about the details of how to implement it.
 * **Valuable**: the story provides value to the user once deployed. Prioritization of stories should be done by business
   value, so we need to know it.
 * **Estimatable**: you can estimate the cost of doing the story, so you can decide if the cost worth the value. If you
   cannot estimate it, it is possible that you need to split the story (estimate here does not mean story points or time)
 * **Small**: it can be done in an iteration or sprint. This depends on the teams. It can be hours or days.
-* **Testable**: you can verify that the need expressed in the story is fulfilled by the implementation, the best if
-  using automated acceptance tests (BDD).
+* **Testable**: you can verify that the need expressed in the story is fulfilled by the implementation using some
+  acceptance criteria, the best if using automated acceptance tests (BDD).
 
 ## Slicing techniques
 
@@ -138,6 +180,11 @@ Example:
 * As a user I want to buy a product paying with PayPal.
 * As a user I want to buy several products paying with both methods.
 
+It is frequent that the first path is more complex than the others, because we have to design some things and introduce
+new components that we could not have. At the same time, the rest of the path will become easier to implement.
+
+Also, if one of the paths seems to be too wide, you can apply other strategies to slice it.
+
 ### By Interface (or platform)
 
 * Identify the different interfaces (UI) that the software has to offer (mobile, console, web, computer, etc.).
@@ -147,16 +194,17 @@ Example:
   revenue, ease of development...
 
 Example: A typical situation is to have a web based application and mobile apps. We could start by developing the web
-for mobile because we expect most user would want to access our app using their phones, and it is easier to develop a
-web application mobile first and scale to computer screen after that.
+for mobile because we expect most user would want to access our app using their phones, and because it is easier to
+develop a web application mobile first and scale to computer screen after (the mobile web version is usable in the
+desktop).
 
 ### By Data types or parameters to handle
 
 * Identify different data types or types of parameters to handle.
 * Identify if it is possible to express them in common formats.
 
-Example: dates can be input using simple text fields, that are easier to implement. We introduce date picker in a future
-iteration.
+Example: dates can be introduced using simple text fields, that are easier to implement. We introduce date picker in a
+future iteration. It is true that the first method is prone to user errors, but
 
 ### By Business Rules
 

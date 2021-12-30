@@ -2,7 +2,7 @@
 
 A dockerized dojo template environment to play with PHP testing and TDD.
 
-This is a base project that can serve as starting point or dojo to practice with php testing and symfony 4.
+This is a base project that can serve as starting point or _dojo_ to practice with php testing and symfony 4.
 
 ## List of code exercises
 
@@ -15,7 +15,8 @@ This is a base project that can serve as starting point or dojo to practice with
 
 ## Goodies
 
-`App\Lib\FileStorageEngine` provides a simple persistence engine for some applications.
+`App\Lib\FileStorageEngine` provides a simple persistence engine for some applications. It is not a real database, but
+it provides persistence between requests for practicing.
 
 ## Setup details
 
