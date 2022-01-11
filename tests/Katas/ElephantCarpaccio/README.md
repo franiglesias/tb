@@ -7,13 +7,13 @@ stories into really thin vertical slices.
 
 A vertical slice is a piece of a story with the following characteristics:
 
-* Vertical: it cuts across multiple architectural layers or technical stacks. Usually, a vertical slice contains
+* **Vertical**: it cuts across multiple architectural layers or technical stacks. Usually, a vertical slice contains
   elements of user interface, backend, persistence, etc. The user can perceive a change in the things that are possible
   to do with the software.
-* Testable: you can verify the behavior of the system with tests. Or better yet: you can specify it with tests and
+* **Testable**: you can verify the behavior of the system with tests. Or better yet: you can specify it with tests and
   develop it in TDD/BDD fashion.
-* User valuable: users obtain some value from the delivery of the slice. Value can benefit only part of potential users,
-  or satisfy only specific use cases. You need to provide value with each slice.
+* **User valuable**: users obtain some value from the delivery of the slice. Value can benefit only part of potential
+  users, or satisfy only specific use cases. You need to provide value with each slice.
 
 ## The exercise
 
@@ -26,8 +26,8 @@ the [Original facilitation guide of Elephant Carpaccio here](https://docs.google
 1. Organize the participants in small teams (2-3 people) with a computer per team if you want to do the coding part.
 2. (20 min) Discussion about user stories. Some teams could need an introduction to the concept.
 3. (20-30 min) Slice the product in 10-20 demo-able user stories or slices. They should be doable in less than 8
-   minutes. UI mockup, creation of data tables, etc., are not considered slices. A valid slice provides new value to the
-   user.
+   minutes. UI mockup, creation of data tables, and other technical things, are not considered slices by themselves. A
+   valid slice provides new value to the user.
 4. Discuss the slices.
 5. (40 min) [OPTIONAL] Develop the application in 40 minutes: 5 iterations (sprints) of 8 minutes each.
 6. (15-20 min) Debrief
@@ -49,17 +49,17 @@ Product is a retail calculator that can accept 3 inputs:
 * 2-letter state code (for taxes)
 
 Output is total price. Discount rate is applied based on order value. Taxes are applied based on state code on
-discounted price. To clarify: first, we apply the discount and, then, we apply the taxes.
+discounted price. To clarify: we apply the discount first, and then, we apply the taxes.
 
 Discounts:
 
 | Order value | Discount rate |
-|-------------|---------------|
-| $1,000      | 3%            |
-| $5,000      | 5%            |
-| $7,000      | 7%            |
-| $10,000     | 10%           |
-| $50,000     | 15%           |
+|:------------|:-------------:|
+| $1,000      |      3%       |
+| $5,000      |      5%       |
+| $7,000      |      7%       |
+| $10,000     |      10%      |
+| $50,000     |      15%      |
 
 Taxes:
 
@@ -75,8 +75,8 @@ Taxes:
 
 The main problem you have doing this exercise has to do with deciding what should be done next.
 
-Our target is to be able to apply the five discounts and support the five states on taxes. But instead of trying to
-reach that target in one shot, we should work in tiny steps.
+Our target is to be able to apply the five discounts and support the five states on taxes. Instead of trying to reach
+that goal in one shot, we should work in tiny steps.
 
 Each step or slice should have UI, input and output and be visibly different from the previous one. We should deliver
 some value on every iteration. It's true that first iterations could have very limited value because we need to address
@@ -135,11 +135,11 @@ A user story expresses a desire about hte value expected form a software system 
 write a user story using this template:
 
 As a [role]
-I want to [something that the system could do]
+I want to [do something with the system]
 So that [benefit expected from the feature]
 
-This declaration should fit in a card. The following should be a conversation between the development team and the user(
-s) interested in the story, so all together can define a way to provide the value to the user. Acceptance criteria
+This declaration should fit in a card. The next step should be a conversation between the development team and the user
+or users interested in the story, so all together can define a way to provide the value to the user. Acceptance criteria
 should be defined to be able to test the implementation.
 
 These are
@@ -178,7 +178,7 @@ Example:
 
 * As a user I want to buy a product paying with Stripe.
 * As a user I want to buy a product paying with PayPal.
-* As a user I want to buy several products paying with both methods.
+* As a user I want to buy several products and choose the payment method.
 
 It is frequent that the first path is more complex than the others, because we have to design some things and introduce
 new components that we could not have. At the same time, the rest of the path will become easier to implement.
@@ -203,13 +203,15 @@ desktop).
 * Identify different data types or types of parameters to handle.
 * Identify if it is possible to express them in common formats.
 
-Example: dates can be introduced using simple text fields, that are easier to implement. We introduce date picker in a
-future iteration. It is true that the first method is prone to user errors, but
+Example: dates can be introduced using simple text fields, that are easier to implement, so we can provide value to the
+user early. We introduce date picker in a future iteration. It is true that the first method is prone to user errors,
+but user can start working and providing feedback.
 
 ### By Business Rules
 
-* Identify and isolate the business rules that are applied to the story.
-* Group together those that are closely related and could be addressed in the same slice.
+* Identify and isolate the business rules that apply to the story.
+* Create one story by rule.
+* Group together those that are so closely related that could be addressed in the same slice.
 
 ### By Spike
 
