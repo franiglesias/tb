@@ -19,13 +19,13 @@ The goal is to practice TDD in a changing requirements environment, starting wit
 ### US-1
 
 * As Bob
-* I want to be greeted with "Hello, Bob"
+* I want to be greeted with "Hello, Bob."
 * So that, I feel good
 
 ### US-2
 
 * As anonymous user
-* I want to be greeted with "Hello, my friend" 
+* I want to be greeted with "Hello, my friend."
 * So that, I feel fine
 
 ### US-3
