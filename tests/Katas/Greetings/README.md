@@ -60,7 +60,7 @@ The goal is to practice TDD in a changing requirements environment, starting wit
 
 ### US-8
 
-* As Bob, \"Charlie, Dianne\", 
+* As Bob, \\"Charlie, Dianne\\", 
 * We want to be greeted with "Hello, Bob and Charlie, Dianne."
 * So that, we feel good
 
