@@ -15,6 +15,9 @@ class Kernel extends BaseKernel
 
     public const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
+    /**
+     * @return \Generator<object>
+     */
     public function registerBundles(): \Generator
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
