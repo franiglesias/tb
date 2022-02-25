@@ -4,7 +4,7 @@
 version: "3.1"
 services:
 
-    postgres:
+  postgres:
       image: postgres:11.1-alpine
       container_name: tb-postgres
       working_dir: /application
@@ -27,9 +27,9 @@ services:
       ports:
        - "8088:80"
 
-    php-fpm:
+    php:
       build: phpdocker/php-fpm
-      container_name: tb-php-fpm
+      container_name: php
       working_dir: /application
       volumes:
         - .:/application
