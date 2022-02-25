@@ -6,7 +6,7 @@ services:
 
   postgres:
     image: postgres:11.1-alpine
-      container_name: tb-postgres
+    container_name: tb-postgres
     working_dir: /application
     volumes:
       - .:/application
