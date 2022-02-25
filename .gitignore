@@ -25,3 +25,6 @@
 /behat.yml
 ###< friends-of-behat/symfony-extension ###
 /phpspec.yml
+/tools/vendor/
+/.php-cs-fixer.cache
+/tools/bin

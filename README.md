@@ -18,17 +18,24 @@ This is a base project that can serve as starting point or _dojo_ to practice wi
 `App\Lib\FileStorageEngine` provides a simple persistence engine for some applications. It is not a real database, but
 it provides persistence between requests for practicing.
 
-## Setup details
+## Setup details and tooling
 
 Docker environment includes a php 7.4 installation with Postgres and XDebug configured.
 
 [Details](phpdocker/README.md)
 
-Set up:
+Preparing all the things:
 
 ```
-docker-compose up -d
-docker exec -it tb-php-fpm composer install
+make build
+```
+
+This will prepare the docker environment and install project dependencies.
+
+There is a Makefile with several tools you can use. Do make help to know all of them.
+
+```
+make help
 ```
 
 Configure your IDE:
